@@ -1,21 +1,36 @@
-CREATE TABLE Room (
-    id UUID PRIMARY KEY,
-    name VARCHAR(255) UNIQUE,
-    createdBy VARCHAR(255) UNIQUE
+CREATE TABLE rooms
+(
+    id        UUID PRIMARY KEY,
+    room_Name  VARCHAR(255) NOT NULL UNIQUE,
+    created_By VARCHAR(255)         NOT NULL
 );
 
-/*CREATE TABLE Users (
-    id UUID,
-    alias VARCHAR(255),
-    CONSTRAINT fk_users PRIMARY KEY (id, alias),
-    CONSTRAINT fk_room FOREIGN KEY (id) REFERENCES Room(id)
+CREATE TABLE users
+(
+    id       UUID PRIMARY KEY,
+    user_Name VARCHAR(255) NOT NULL
+
 );
 
-CREATE TABLE Messages (
-    id_messages INT PRIMARY KEY,
-    room_id UUID,
-    user_alias VARCHAR(255),
-    message VARCHAR(255),
-    message_date date,
-    CONSTRAINT fk_alias FOREIGN KEY (user_alias) REFERENCES Users(alias)
-);*/
+
+
+CREATE TABLE usersRooms
+(
+    id       UUID PRIMARY KEY,
+    roomId   UUID NOT NULL,
+    senderId UUID NOT NULL,
+    FOREIGN KEY (roomId) REFERENCES rooms (id),
+    FOREIGN KEY (senderId) REFERENCES users (id)
+);
+
+-- Crear la tabla de mensajes
+CREATE TABLE messages
+(
+    id          UUID PRIMARY KEY,
+    roomId      UUID         NOT NULL,
+    senderId    UUID         NOT NULL,
+    messageText VARCHAR(255) NOT NULL,
+    timestamp   TIMESTAMP    NOT NULL,
+    FOREIGN KEY (roomId) REFERENCES rooms (id),
+    FOREIGN KEY (senderId) REFERENCES users (id)
+);
