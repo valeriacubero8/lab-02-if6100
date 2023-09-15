@@ -13,37 +13,33 @@ import java.util.UUID;
 
 @RestController
 public class RoomController {
+    @Autowired
+    NewRoomHandler handlerRoom;
 
     @Autowired
-    NewRoomHandler roomHandler;
-    NewUserHandler userHandler;
+    NewUserHandler handlerUser;
 
     @PostMapping("/room/create")
     public String create(@RequestBody RoomCreateRequest payload){
-        UUID id = UUID.randomUUID();
 
-        roomHandler.handle(new NewRoomHandler.Command(
-                id,
-                payload.roomName(),
-                payload.createdBy()
-        ));
+        try{
+            UUID id = UUID.randomUUID();
 
-        userHandler.handle(new NewUserHandler.Command(
-                id,
-                payload.createdBy()
-        ));
+            handlerRoom.handle(new NewRoomHandler.Command(
+                    id, payload.roomName(), payload.createdBy()
+            ));
 
-        return "OK";
+            handlerUser.handle( new NewUserHandler.Command(
+                    id, payload.createdBy()
+            ));
+
+            return "The room id is: " + id;
+        }catch (Exception ex){
+            return "The room cant be created";
+        }
+
+
     }
-
-
-
-
-    @RequestMapping("/echo")
-    public String echo(){
-        return "Hey there";
-    }
-
 }
 
-record RoomCreateRequest(String roomName, String createdBy, String userName){}
+record RoomCreateRequest(String roomName, String createdBy){ }

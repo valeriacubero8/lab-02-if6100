@@ -13,22 +13,19 @@ public class NewRoomHandler {
     @Autowired
     RoomRepository repository;
 
-    public record Command(
-            UUID id,
-            String roomName,
-            String createdBy
-    ){
-        RoomEntity toEntity(){
+    public record Command(UUID id,
+                          String name,
+                          String createdBy) {
+        RoomEntity toEntity() {
             RoomEntity room = new RoomEntity();
-            room.setId(UUID.randomUUID());
-            room.setRoomName(roomName());
+            room.setId(id());
+            room.setRoomName(name());
             room.setCreatedBy(createdBy());
             return room;
         }
     }
 
-    public void handle(Command command){
-
+    public void handle(Command command) {
         repository.save(command.toEntity());
     }
 

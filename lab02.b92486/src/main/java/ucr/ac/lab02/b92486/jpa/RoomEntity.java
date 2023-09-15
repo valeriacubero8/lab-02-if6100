@@ -9,12 +9,14 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "rooms")
+@Table(name = "b92486_rooms")
 public class RoomEntity {
     @Id
     private UUID id;
+
     @Column
     private String roomName;
+
     @Column
     private String createdBy;
 

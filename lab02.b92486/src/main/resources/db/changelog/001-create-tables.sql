@@ -1,36 +1,24 @@
-CREATE TABLE rooms
+CREATE TABLE b92486_rooms
 (
-    id        UUID PRIMARY KEY,
+    id         UUID PRIMARY KEY,
     room_Name  VARCHAR(255) NOT NULL UNIQUE,
-    created_By VARCHAR(255)         NOT NULL
+    created_By VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE users
+CREATE TABLE b92486_users
 (
     id       UUID PRIMARY KEY,
-    user_Name VARCHAR(255) NOT NULL
-
+    user_Name VARCHAR(255) NOT NULL UNIQUE,
+    room_Id  UUID,
+    FOREIGN KEY (room_Id) REFERENCES rooms (id)
 );
 
-
-
-CREATE TABLE usersRooms
+CREATE TABLE b92486_messages
 (
-    id       UUID PRIMARY KEY,
-    roomId   UUID NOT NULL,
-    senderId UUID NOT NULL,
-    FOREIGN KEY (roomId) REFERENCES rooms (id),
-    FOREIGN KEY (senderId) REFERENCES users (id)
-);
-
--- Crear la tabla de mensajes
-CREATE TABLE messages
-(
-    id          UUID PRIMARY KEY,
-    roomId      UUID         NOT NULL,
-    senderId    UUID         NOT NULL,
-    messageText VARCHAR(255) NOT NULL,
-    timestamp   TIMESTAMP    NOT NULL,
-    FOREIGN KEY (roomId) REFERENCES rooms (id),
-    FOREIGN KEY (senderId) REFERENCES users (id)
+    message_Id UUID PRIMARY KEY,
+    room_Id    UUID,
+    user_Name   VARCHAR(255),
+    message    VARCHAR(1000),
+    created_On DATE,
+    FOREIGN KEY (room_Id) REFERENCES rooms (id)
 );

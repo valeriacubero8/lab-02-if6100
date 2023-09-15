@@ -9,12 +9,14 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "users")
+@Table(name = "b92486_users")
 public class UserEntity {
     @Id
     private UUID id;
     @Column
     private String userName;
+    @Column
+    private UUID roomId;
 
     public UUID getId() {
         return id;
@@ -32,16 +34,24 @@ public class UserEntity {
         this.userName = userName;
     }
 
+    public UUID getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(UUID roomId) {
+        this.roomId = roomId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserEntity that = (UserEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(userName, that.userName);
+        return Objects.equals(id, that.id) && Objects.equals(userName, that.userName) && Objects.equals(roomId, that.roomId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userName);
+        return Objects.hash(id, userName, roomId);
     }
 }
