@@ -40,11 +40,11 @@ public class SendMessageHandler {
             MessageEntity message = command.toEntity();
             messageRepository.save(message);
 
-            LinkedHashMap<String, Object> messageInfo = new LinkedHashMap<>();
-            messageInfo.put("id", message.getMessageId());
-            messageInfo.put("name", message.getMessage());
-            messageInfo.put("createdOn", message.getCreatedOn());
-            return messageInfo;
+            LinkedHashMap<String, Object> messageDetails = new LinkedHashMap<>();
+            messageDetails.put("id", message.getMessageId());
+            messageDetails.put("name", message.getMessage());
+            messageDetails.put("createdOn", message.getCreatedOn());
+            return messageDetails;
         }
         catch (Exception e)
         {
@@ -56,10 +56,10 @@ public class SendMessageHandler {
     {
         try
         {
-            RoomEntity chatRoom = roomRepository.findById(roomId).orElse(null);
-            List<MessageEntity> messages = messageRepository.findByRoomId(roomId);
+            RoomEntity messagesRoom = roomRepository.findById(roomId).orElse(null);
+            List<MessageEntity> messagesList = messageRepository.findByRoomId(roomId);
             List<LinkedHashMap<String,Object>> totalMessages = new ArrayList<>();
-            for(MessageEntity u : messages)
+            for(MessageEntity u : messagesList)
             {
                 LinkedHashMap<String, Object> singleMessage = new LinkedHashMap<>();
                 singleMessage.put("alias", u.getUserName());
@@ -69,12 +69,12 @@ public class SendMessageHandler {
                 totalMessages.add(singleMessage);
             }
 
-            LinkedHashMap<String, Object> messagesRoom = new LinkedHashMap<>();
-            messagesRoom.put("id", roomId);
-            messagesRoom.put("name", chatRoom.getRoomName());
-            messagesRoom.put("messages", totalMessages);
+            LinkedHashMap<String, Object> messagesQueue = new LinkedHashMap<>();
+            messagesQueue.put("id", roomId);
+            messagesQueue.put("name", messagesRoom.getRoomName());
+            messagesQueue.put("messages", totalMessages);
 
-            return messagesRoom;
+            return messagesQueue;
         }
         catch (Exception e)
         {
