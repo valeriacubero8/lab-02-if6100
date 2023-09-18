@@ -1,4 +1,3 @@
-
 CREATE TABLE b92486_rooms
 (
     id         UUID PRIMARY KEY,
@@ -11,7 +10,7 @@ CREATE TABLE b92486_users
     id       UUID PRIMARY KEY,
     user_Name VARCHAR(255) NOT NULL UNIQUE,
     room_Id  UUID,
-    FOREIGN KEY (room_Id) REFERENCES rooms (id)
+    FOREIGN KEY (room_Id) REFERENCES b92486_rooms (id)
 );
 
 CREATE TABLE b92486_messages
@@ -21,5 +20,5 @@ CREATE TABLE b92486_messages
     user_Name   VARCHAR(255),
     message    VARCHAR(1000),
     created_On DATE,
-    FOREIGN KEY (room_Id) REFERENCES rooms (id)
+    FOREIGN KEY (room_Id) REFERENCES b92486_rooms (id)
 );
